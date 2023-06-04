@@ -1,14 +1,11 @@
 package com.nhnacademy.team4.mindooray.handler;
 
-import com.nhnacademy.team4.mindooray.RedisRepository;
+import com.nhnacademy.team4.mindooray.repository.RedisRepository;
 import com.nhnacademy.team4.mindooray.utils.CookieUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

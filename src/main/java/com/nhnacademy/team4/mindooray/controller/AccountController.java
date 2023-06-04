@@ -24,6 +24,8 @@ public class AccountController {
         return "login";
     }
 
+
+
     @PostMapping("/register")
     public String register(
             CreateAccountRequest createAccountRequest,

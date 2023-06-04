@@ -1,4 +1,4 @@
-package com.nhnacademy.team4.mindooray;
+package com.nhnacademy.team4.mindooray.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -1,6 +1,7 @@
 package com.nhnacademy.team4.mindooray.service;
 
 import com.nhnacademy.team4.mindooray.adapter.AccountAdapter;
+import com.nhnacademy.team4.mindooray.domain.AccountDetails;
 import com.nhnacademy.team4.mindooray.dto.request.CreateAccountRequest;
 import com.nhnacademy.team4.mindooray.dto.response.AccountResponse;
 import com.nhnacademy.team4.mindooray.dto.response.LoginResponse;
@@ -31,7 +32,11 @@ public class AccountService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LoginResponse loginResponse = accountAdapter.getAccountByLoginId(username);
 
-        return new User(loginResponse.getLoginId(), loginResponse.getPassword(),
+        return AccountDetails.create(loginResponse.getLoginId(), loginResponse.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority(loginResponse.getRole())));
+    }
+
+    public LoginResponse getAccountByEmail(String email) {
+        return accountAdapter.getAccountByEmail(email);
     }
 }

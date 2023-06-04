@@ -5,13 +5,14 @@ import com.nhnacademy.team4.mindooray.dto.request.CreateAccountRequest;
 import com.nhnacademy.team4.mindooray.dto.response.AccountResponse;
 import com.nhnacademy.team4.mindooray.dto.response.LoginResponse;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 
 @Service
@@ -39,6 +40,21 @@ public class AccountAdapter {
         return exchange.getBody();
     }
 
+    public LoginResponse getAccountByEmail(String email) {
+        HttpHeaders headers = getCommonHeaders();
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<LoginResponse> exchange = getExchange(
+                accountUrl + "/auth/login/{email}",
+                HttpMethod.GET,
+                entity,
+                LoginResponse.class,
+                email
+        );
+
+        return exchange.getBody();
+    }
+
     public AccountResponse register(CreateAccountRequest createAccountRequest) {
         HttpHeaders headers = getCommonHeaders();
         headers.add("Content-Type", "application/json");
@@ -60,12 +76,23 @@ public class AccountAdapter {
         return headers;
     }
 
-    private <T> ResponseEntity<T> getExchange(String url, HttpMethod method, HttpEntity<?> entity, Class<T> clz){
+    private <T> ResponseEntity<T> getExchange(String url, HttpMethod method, HttpEntity<?> entity, Class<T> clz) {
         return restTemplate.exchange(url, method, entity, new ParameterizedTypeReference<>() {
             @Override
             public Type getType() {
                 return clz;
             }
         });
+    }
+
+    private <T> ResponseEntity<T> getExchange(String url, HttpMethod method, HttpEntity<?> entity, Class<T> clz, Object... pathVariables) {
+        return restTemplate.exchange(url, method, entity,
+                new ParameterizedTypeReference<T>() {
+                    @Override
+                    public Type getType() {
+                        return clz;
+                    }
+                },
+                (Object) pathVariables);
     }
 }
