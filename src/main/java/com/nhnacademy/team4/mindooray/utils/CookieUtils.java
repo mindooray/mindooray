@@ -28,4 +28,9 @@ public final class CookieUtils {
     }
 
 
+    public static void remove(HttpServletResponse response, String name) {
+        Cookie cookie = new Cookie(name, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
 }

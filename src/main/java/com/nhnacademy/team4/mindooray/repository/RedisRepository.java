@@ -19,4 +19,8 @@ public class RedisRepository {
     public Long getSessionAccountId(String key, String hashKey) {
         return (Long) redisTemplate.opsForHash().get(key, hashKey);
     }
+
+    public void remove(String key) {
+        redisTemplate.delete(key);
+    }
 }

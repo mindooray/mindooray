@@ -7,14 +7,12 @@ import com.nhnacademy.team4.mindooray.dto.response.AccountResponse;
 import com.nhnacademy.team4.mindooray.dto.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 @Service
@@ -34,9 +32,5 @@ public class AccountService implements UserDetailsService {
 
         return AccountDetails.create(loginResponse.getLoginId(), loginResponse.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority(loginResponse.getRole())));
-    }
-
-    public LoginResponse getAccountByEmail(String email) {
-        return accountAdapter.getAccountByEmail(email);
     }
 }

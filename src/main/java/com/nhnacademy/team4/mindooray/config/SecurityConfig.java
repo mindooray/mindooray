@@ -1,5 +1,6 @@
 package com.nhnacademy.team4.mindooray.config;
 
+import com.nhnacademy.team4.mindooray.handler.AccountLogoutHandler;
 import com.nhnacademy.team4.mindooray.repository.RedisRepository;
 import com.nhnacademy.team4.mindooray.handler.LoginSuccessHandler;
 import com.nhnacademy.team4.mindooray.service.AccountOAuth2Service;
@@ -8,7 +9,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +20,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private static final String GITHUB = "github";
+    private static final String LOGIN_URI = "/login";
     private final RedisRepository redisRepository;
     private final AccountOAuth2Service accountOAuth2Service;
     private final OAuth2ClientProperties oAuth2ClientProperties;
+    private final LoginSuccessHandler loginSuccessHandler;
+    private final AccountLogoutHandler accountLogoutHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,22 +37,28 @@ public class SecurityConfig {
                     .anyRequest().permitAll()
                 .and()
                     .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
+                    .loginPage(LOGIN_URI)
+                    .loginProcessingUrl(LOGIN_URI)
                     .usernameParameter("loginId")
                     .passwordParameter("password")
-                    .successHandler(new LoginSuccessHandler(redisRepository))
+                    .successHandler(loginSuccessHandler)
                 .and()
                     .oauth2Login()
-                    .loginPage("/login")
-                    .successHandler(new LoginSuccessHandler(redisRepository))
+                    .loginPage(LOGIN_URI)
+                    .successHandler(loginSuccessHandler)
                     .clientRegistrationRepository(clientRegistrationRepository())
                     .userInfoEndpoint()
                     .userService(accountOAuth2Service)
                     .and()
                 .and()
                     .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                    .sessionFixation()
+                    .none()
+                .and()
+                    .logout()
+                    .logoutUrl("/logout")
+                    .addLogoutHandler(accountLogoutHandler)
+                    .logoutSuccessUrl("/login")
                 .and()
                 .build();
     }
@@ -64,9 +74,9 @@ public class SecurityConfig {
     }
 
     public ClientRegistration clientRegistration() {
-        return CommonOAuth2Provider.GITHUB.getBuilder("github")
-                .clientId(oAuth2ClientProperties.getRegistration().get("github").getClientId())
-                .clientSecret(oAuth2ClientProperties.getRegistration().get("github").getClientSecret())
+        return CommonOAuth2Provider.GITHUB.getBuilder(GITHUB)
+                .clientId(oAuth2ClientProperties.getRegistration().get(GITHUB).getClientId())
+                .clientSecret(oAuth2ClientProperties.getRegistration().get(GITHUB).getClientSecret())
                 .build();
     }
 }
