@@ -49,7 +49,7 @@ public class ProjectAuthorizationManager implements AuthorizationManager<Request
         RedisRepository redisRepository = BeanUtils.getBean(RedisRepository.class);
         ProjectAdapter projectAdapter = BeanUtils.getBean(ProjectAdapter.class);
 
-        Long accountId = redisRepository.getSessionAccountId(sessionId, "accountId");
+        Long accountId = redisRepository.getSessionAccountId(sessionId);
 
         ProjectMemberResponse memberResponse = projectAdapter.checkProjectAccount(accountId, projectId);
         String projectRole = memberResponse.getProjectRole();

@@ -9,8 +9,5 @@ public class LoginResponse {
     private String loginId;
     private String password;
     private String role;
-    private String status = "ACTIVE";
-
-    // /auth/login/{loginId} -> 로그인하는 아이디, 암호화된 password, role
-    // /accounts/login/{loginId} -> pk 아이디
+    private String status;
 }

@@ -5,12 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-<h1 th:text="${project.title}"></h1>
-
 <table>
     <tbody>
-    <tr>
-        <td></td>
+    <tr th:each="project : ${projectList}" th:onclick="|location.href='@{/projects/{projectId}(projectId=${project.id})}'|">
+        <td th:text="${project.title}"></td>
     </tr>
     </tbody>
 </table>

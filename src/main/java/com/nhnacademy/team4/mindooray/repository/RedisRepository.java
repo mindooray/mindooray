@@ -16,8 +16,12 @@ public class RedisRepository {
         redisTemplate.expire(key, expireTimeSecond, TimeUnit.SECONDS);
     }
 
-    public Long getSessionAccountId(String key, String hashKey) {
-        return Long.parseLong(String.valueOf(redisTemplate.opsForHash().get(key, hashKey)));
+    public Object get(String key, String hashKey) {
+        return redisTemplate.opsForHash().get(key, hashKey);
+    }
+
+    public Long getSessionAccountId(String key) {
+        return Long.parseLong(String.valueOf(redisTemplate.opsForHash().get(key, "accountId")));
     }
 
     public void remove(String key) {

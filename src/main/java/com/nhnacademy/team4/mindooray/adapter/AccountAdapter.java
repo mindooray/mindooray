@@ -86,7 +86,7 @@ public class AccountAdapter {
 
     public AccountResponse getAccountByLoginId(String loginId) {
         RestApiUrlBuilder<Void> builder = RestApiUrlBuilder.builder()
-                .url(accountUrl + "/{loginId}")
+                .url(accountUrl + "/login/{loginId}")
                 .method(HttpMethod.GET)
                 .header("Accept", "application/json")
                 .pathVariable("loginId", loginId)

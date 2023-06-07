@@ -8,5 +8,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ProjectResponse {
+    private long id;
     private String title;
 }

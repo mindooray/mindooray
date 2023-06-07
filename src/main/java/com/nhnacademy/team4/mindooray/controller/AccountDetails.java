@@ -1,4 +1,4 @@
-package com.nhnacademy.team4.mindooray.domain;
+package com.nhnacademy.team4.mindooray.controller;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

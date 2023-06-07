@@ -1,7 +1,6 @@
 package com.nhnacademy.team4.mindooray.handler;
 
 import com.nhnacademy.team4.mindooray.adapter.AccountAdapter;
-import com.nhnacademy.team4.mindooray.domain.AccountDetails;
 import com.nhnacademy.team4.mindooray.dto.response.account.AccountResponse;
 import com.nhnacademy.team4.mindooray.repository.RedisRepository;
 import com.nhnacademy.team4.mindooray.utils.CookieUtils;
@@ -34,7 +33,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         CookieUtils.save(response, SESSION_NAME, sessionId, EXPIRE_TIME_SECOND);
         AccountResponse accountResponse = accountAdapter.getAccountByLoginId(authentication.getName());
         long accountId = accountResponse.getId();
-
         redisRepository.save(sessionId, ACCOUNT_ID, accountId, EXPIRE_TIME_SECOND);
 
         super.onAuthenticationSuccess(request, response, authentication);

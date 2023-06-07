@@ -29,10 +29,12 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(a -> a
                         .antMatchers("/", "/login", "/register").permitAll()
-                        .antMatchers("/projects").hasAnyAuthority("ROLE_USER")
+
+                        // 유저 관련 접근 제한
+                        .antMatchers("/projects").hasAuthority("ROLE_USER")
 
                         // project 관련 접근 제한
-                        .antMatchers(HttpMethod.POST, "/projects/{projectId}/accounts")
+                        .antMatchers(HttpMethod.PUT, "/projects/{projectId}/accounts")
                             .access(new ProjectAuthorizationManager("PROJECT_ADMIN"))
 
                         //task 관련 접근 제한
@@ -40,7 +42,7 @@ public class SecurityConfig {
                             .access(new ProjectAuthorizationManager("PROJECT_MEMBER"))
 
                         // 댓글 관련 접근 제한
-                        .antMatchers(HttpMethod.POST, "empty")   // 생성
+                        .antMatchers(HttpMethod.POST, "/empty")   // 생성
                             .access(new ProjectAuthorizationManager("PROJECT_MEMBER"))
 
                         .anyRequest().authenticated())

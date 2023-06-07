@@ -19,11 +19,10 @@ public class ProjectService {
     }
 
     public List<ProjectResponse> getProjects(long accountId) {
-        ProjectResponse projectResponse = projectAdapter.getAccountProjects(accountId);
-        return null;
+        return projectAdapter.getAccountProjects(accountId);
     }
 
-    public ProjectResponse getProject(long accountId, long projectId) {
-        return projectAdapter.getAccountProject(accountId, projectId);
+    public ProjectResponse getProject(long projectId) {
+        return projectAdapter.getAccountProject(projectId);
     }
 }
