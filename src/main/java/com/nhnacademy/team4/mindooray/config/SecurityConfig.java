@@ -1,7 +1,7 @@
 package com.nhnacademy.team4.mindooray.config;
 
 import com.nhnacademy.team4.mindooray.handler.*;
-import com.nhnacademy.team4.mindooray.manager.CustomAuthorizationManager;
+import com.nhnacademy.team4.mindooray.manager.ProjectAuthorizationManager;
 import com.nhnacademy.team4.mindooray.service.AccountOAuth2Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,15 +33,15 @@ public class SecurityConfig {
 
                         // project 관련 접근 제한
                         .antMatchers(HttpMethod.POST, "/projects/{projectId}/accounts")
-                            .access(new CustomAuthorizationManager("PROJECT_ADMIN"))
+                            .access(new ProjectAuthorizationManager("PROJECT_ADMIN"))
 
                         //task 관련 접근 제한
                         .antMatchers("/empty")
-                            .access(new CustomAuthorizationManager("PROJECT_MEMBER"))
+                            .access(new ProjectAuthorizationManager("PROJECT_MEMBER"))
 
                         // 댓글 관련 접근 제한
                         .antMatchers(HttpMethod.POST, "empty")   // 생성
-                            .access(new CustomAuthorizationManager("PROJECT_MEMBER"))
+                            .access(new ProjectAuthorizationManager("PROJECT_MEMBER"))
 
                         .anyRequest().authenticated())
                 .formLogin(h -> h

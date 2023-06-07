@@ -27,7 +27,6 @@ public final class CookieUtils {
         return Optional.empty();
     }
 
-
     public static void remove(HttpServletResponse response, String name) {
         Cookie cookie = new Cookie(name, null);
         cookie.setMaxAge(0);

@@ -3,8 +3,6 @@ package com.nhnacademy.team4.mindooray.controller;
 import com.nhnacademy.team4.mindooray.dto.response.project.ProjectResponse;
 import com.nhnacademy.team4.mindooray.service.ProjectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public class CustomAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
+public class ProjectAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
     private static final SimpleGrantedAuthority ROLE_USER = new SimpleGrantedAuthority("ROLE_USER");
     private static final SimpleGrantedAuthority ROLE_ADMIN = new SimpleGrantedAuthority("ROLE_ADMIN");
     private static final String PROJECT_ADMIN = "PROJECT_ADMIN";
     private final String role;
-    public CustomAuthorizationManager(String role) {
+    public ProjectAuthorizationManager(String role) {
         this.role = role;
     }
     @Override
