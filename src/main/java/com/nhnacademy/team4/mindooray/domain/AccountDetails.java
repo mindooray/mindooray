@@ -12,12 +12,14 @@ public class AccountDetails implements UserDetails, OAuth2User {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
+    private boolean accountNonExpire;
 
     protected AccountDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super();
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+        this.accountNonExpire = true;
     }
 
     public static AccountDetails create(String username, String password, Collection<? extends GrantedAuthority> authorities) {
@@ -28,6 +30,10 @@ public class AccountDetails implements UserDetails, OAuth2User {
         AccountDetails accountDetails = new AccountDetails(username, password, authorities);
         accountDetails.attributes = attributes;
         return accountDetails;
+    }
+
+    public void setAccountNonExpire(boolean accountNonExpire) {
+        this.accountNonExpire = accountNonExpire;
     }
 
     @Override
@@ -57,7 +63,7 @@ public class AccountDetails implements UserDetails, OAuth2User {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.accountNonExpire;
     }
 
     @Override

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
@@ -10,7 +10,7 @@
         <input type="text" name="loginId">
     </div>
     <div>
-        <input type="text" name="email">
+        <input type="text" name="email" th:value="${session.get('github')}">
     </div>
     <div>
         <input type="password" name="password">

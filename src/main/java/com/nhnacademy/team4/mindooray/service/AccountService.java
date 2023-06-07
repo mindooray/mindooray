@@ -3,8 +3,8 @@ package com.nhnacademy.team4.mindooray.service;
 import com.nhnacademy.team4.mindooray.adapter.AccountAdapter;
 import com.nhnacademy.team4.mindooray.domain.AccountDetails;
 import com.nhnacademy.team4.mindooray.dto.request.CreateAccountRequest;
-import com.nhnacademy.team4.mindooray.dto.response.AccountResponse;
-import com.nhnacademy.team4.mindooray.dto.response.LoginResponse;
+import com.nhnacademy.team4.mindooray.dto.response.account.AccountResponse;
+import com.nhnacademy.team4.mindooray.dto.response.account.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,11 +26,21 @@ public class AccountService implements UserDetailsService {
         return accountAdapter.register(createAccountRequest);
     }
 
+    public long getAccountIdByLoginId(String loginId) {
+        AccountResponse accountResponse = accountAdapter.getAccountByLoginId(loginId);
+        return accountResponse.getId();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        LoginResponse loginResponse = accountAdapter.getAccountByLoginId(username);
+        LoginResponse loginResponse = accountAdapter.getLoginInfoByLoginId(username);
 
-        return AccountDetails.create(loginResponse.getLoginId(), loginResponse.getPassword(),
+        AccountDetails accountDetails = AccountDetails.create(loginResponse.getLoginId(), loginResponse.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority(loginResponse.getRole())));
+        if(!loginResponse.getStatus().equals("ACTIVE")) {
+            accountDetails.setAccountNonExpire(false);
+        }
+
+        return accountDetails;
     }
 }

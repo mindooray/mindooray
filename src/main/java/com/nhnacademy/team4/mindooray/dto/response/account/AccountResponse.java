@@ -1,4 +1,4 @@
-package com.nhnacademy.team4.mindooray.dto.response;
+package com.nhnacademy.team4.mindooray.dto.response.account;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

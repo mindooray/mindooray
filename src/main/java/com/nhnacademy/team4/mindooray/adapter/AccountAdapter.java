@@ -2,27 +2,25 @@ package com.nhnacademy.team4.mindooray.adapter;
 
 import com.nhnacademy.team4.mindooray.config.ApiProperties;
 import com.nhnacademy.team4.mindooray.dto.request.CreateAccountRequest;
-import com.nhnacademy.team4.mindooray.dto.response.AccountResponse;
-import com.nhnacademy.team4.mindooray.dto.response.LoginResponse;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import com.nhnacademy.team4.mindooray.dto.response.account.AccountResponse;
+import com.nhnacademy.team4.mindooray.dto.response.account.LoginResponse;
+import com.nhnacademy.team4.mindooray.exception.AuthenticationNotFoundEmailException;
+import com.nhnacademy.team4.mindooray.utils.RestApiUrlBuilder;
+import com.nhnacademy.team4.mindooray.utils.RestApiUtils;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Type;
+import java.util.List;
 
 
-@Service
+@Component
 public class AccountAdapter {
-    private final RestTemplate restTemplate;
     private final ApiProperties apiProperties;
     private final String accountUrl;
 
-    public AccountAdapter(RestTemplate restTemplate, ApiProperties apiProperties) {
-        this.restTemplate = restTemplate;
+    public AccountAdapter(ApiProperties apiProperties) {
         this.apiProperties = apiProperties;
         this.accountUrl = apiProperties.getAccount();
     }
@@ -33,17 +31,17 @@ public class AccountAdapter {
      * @param loginId 사용자 로그인 아이디
      * @return 매팽된 {@link LoginResponse} 객체
      */
-    public LoginResponse getAccountByLoginId(String loginId) {
-        HttpHeaders headers = getCommonHeaders();
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
+    public LoginResponse getLoginInfoByLoginId(String loginId) {
+        RestApiUrlBuilder<LoginResponse> build = RestApiUrlBuilder.builder()
+                .url(accountUrl + "/auth/login/" + loginId)
+                .method(HttpMethod.GET)
+                .header("Accept", "application/json")
+                .build();
 
-        ResponseEntity<LoginResponse> exchange = getExchange(
-                accountUrl + "/auth/" + loginId,
-                HttpMethod.GET,
-                entity,
+        return RestApiUtils.getExchange(
+                build,
                 LoginResponse.class
         );
-        return exchange.getBody();
     }
 
     /**
@@ -54,18 +52,18 @@ public class AccountAdapter {
      */
 
     public LoginResponse getAccountByEmail(String email) {
-        HttpHeaders headers = getCommonHeaders();
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        RestApiUrlBuilder<Void> builder = RestApiUrlBuilder.builder()
+                .url(accountUrl + "/auth/login/{email}")
+                .pathVariable("email", email)
+                .method(HttpMethod.GET)
+                .header("Accept", "application/json")
+                .build();
 
-        ResponseEntity<LoginResponse> exchange = getExchange(
-                accountUrl + "/auth/login/{email}",
-                HttpMethod.GET,
-                entity,
-                LoginResponse.class,
-                email
-        );
-
-        return exchange.getBody();
+        try {
+            return RestApiUtils.getExchange(builder, LoginResponse.class);
+        } catch (HttpClientErrorException e) {
+            throw new AuthenticationNotFoundEmailException("not found email", email);
+        }
     }
 
     /**
@@ -76,68 +74,40 @@ public class AccountAdapter {
      */
 
     public AccountResponse register(CreateAccountRequest createAccountRequest) {
-        HttpHeaders headers = getCommonHeaders();
-        headers.add("Content-Type", "application/json");
-        HttpEntity<CreateAccountRequest> entity = new HttpEntity<>(createAccountRequest, headers);
+        RestApiUrlBuilder<CreateAccountRequest> builder = RestApiUrlBuilder.builder()
+                .url(accountUrl)
+                .method(HttpMethod.POST)
+                .header("Content-Type", "application/json")
+                .body(createAccountRequest)
+                .build();
 
-        ResponseEntity<AccountResponse> exchange = getExchange(
-                accountUrl,
-                HttpMethod.POST,
-                entity,
+        return RestApiUtils.getExchange(builder, AccountResponse.class);
+    }
+
+    public AccountResponse getAccountByLoginId(String loginId) {
+        RestApiUrlBuilder<Void> builder = RestApiUrlBuilder.builder()
+                .url(accountUrl + "/{loginId}")
+                .method(HttpMethod.GET)
+                .header("Accept", "application/json")
+                .pathVariable("loginId", loginId)
+                .build();
+
+        return RestApiUtils.getExchange(
+                builder,
+                AccountResponse.class
+                );
+    }
+
+    public List<AccountResponse> getAccounts() {
+        RestApiUrlBuilder<Void> builder = RestApiUrlBuilder.builder()
+                .url(accountUrl)
+                .method(HttpMethod.GET)
+                .header("Accept", "application/json")
+                .build();
+
+        return RestApiUtils.getExchangeList(
+                builder,
                 AccountResponse.class
         );
-
-        return exchange.getBody();
-    }
-
-    /**
-     * 공통 헤더 메서드
-     * - Accept: application/json
-     *
-     * @return
-     */
-    private HttpHeaders getCommonHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Accept", "application/json");
-        return headers;
-    }
-
-    /**
-     *
-     * @param url       요청 url
-     * @param method    요청 method
-     * @param entity    요청 header, body
-     * @param clz       응답에 매핑될 class 타입
-     * @return          요청에 대한 응답 ResponseEntity 객체
-     * @param <T>       응답에 매핑될 class
-     */
-    private <T> ResponseEntity<T> getExchange(String url, HttpMethod method, HttpEntity<?> entity, Class<T> clz) {
-        return restTemplate.exchange(url, method, entity, new ParameterizedTypeReference<>() {
-            @Override
-            public Type getType() {
-                return clz;
-            }
-        });
-    }
-
-    /**
-     *
-     * @param url               요청 url
-     * @param method            요청 method
-     * @param entity            요청 header, body
-     * @param clz               응답에 매핑될 class 타입
-     * @param pathVariables     요청 url 에 사용되는 경로 변수
-     * @return
-     * @param <T>
-     */
-    private <T> ResponseEntity<T> getExchange(String url, HttpMethod method, HttpEntity<?> entity, Class<T> clz, Object... pathVariables) {
-        return restTemplate.exchange(url, method, entity,
-                new ParameterizedTypeReference<T>() {
-                    @Override
-                    public Type getType() {
-                        return clz;
-                    }
-                },
-                (Object) pathVariables);
     }
 }
