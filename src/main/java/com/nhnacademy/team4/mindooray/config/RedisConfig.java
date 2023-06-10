@@ -33,6 +33,7 @@ public class RedisConfig {
 
     /**
      * 레디스 데이터 직렬화 설정
+     *
      * @param redisConnectionFactory
      * @return
      */

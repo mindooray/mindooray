@@ -1,54 +1,64 @@
 package com.nhnacademy.team4.mindooray.controller;
 
-import com.nhnacademy.team4.mindooray.dto.response.project.ProjectResponse;
-import com.nhnacademy.team4.mindooray.dto.task.TaskResponse;
+import com.nhnacademy.team4.mindooray.dto.request.CreateProjectRequest;
 import com.nhnacademy.team4.mindooray.repository.RedisRepository;
 import com.nhnacademy.team4.mindooray.service.ProjectService;
-import com.nhnacademy.team4.mindooray.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService projectService;
-    private final TaskService taskService;
     private final RedisRepository redisRepository;
 
-    @GetMapping("/projects")
-    public String getProjects(
-            @CookieValue("SESSION") String key,
-            Model model
-    ) {
-        long accountId = redisRepository.getSessionAccountId(key);
-        List<ProjectResponse> projectResponseList = projectService.getProjects(accountId);
-        model.addAttribute("projectList", projectResponseList);
-        return "project";
-    }
-
-    @GetMapping("/projects/{projectId}")
-    public String getProject(
+    /**
+     * 프로젝트에 속한 어카운트 리스트
+     *
+     * @param projectId 프로젝트 아이디
+     * @param model
+     * @return
+     */
+    @GetMapping("/projects/{projectId}/accounts")
+    public String getProjectAccounts(
             @PathVariable("projectId") Long projectId,
             Model model
     ) {
-        List<TaskResponse> tasks = taskService.getTasks(projectId);
-        model.addAttribute("taskList", tasks);
-        return "task";
+        return null;
     }
 
-    // hasAuthority -> USER
+
+    /**
+     * 프로젝트 어카운트 추가
+     *
+     * @param projectId 어카운트를 추가할 프로젝트
+     * @param accountId 프로젝트에 추가될 어카운트 아이디
+     * @return
+     */
+    @PostMapping("/projects/{projectId}/accounts/{accountId}")
+    public String addProjectAccount(
+            @PathVariable("projectId") Long projectId,
+            @PathVariable("accountId") Long accountId
+    ) {
+        return null;
+    }
+
+    /**
+     * 프로젝트 생성
+     *
+     * @param key redis 에서 account id 를 가져오기 위한 key
+     * @return project 리스트 페이지
+     */
     @PostMapping("/projects")
     public String createProject(
-            @CookieValue("SESSION") String key
+            @CookieValue("SESSION") String key,
+            @ModelAttribute CreateProjectRequest createProjectRequest
     ) {
-        return "project";
+        long accountId = redisRepository.getSessionAccountId(key);
+        projectService.createProject(accountId, createProjectRequest);
+        return "redirect:/project";
     }
 
 }

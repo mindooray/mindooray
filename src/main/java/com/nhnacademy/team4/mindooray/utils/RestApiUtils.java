@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public final class RestApiUtils {
+    private RestApiUtils() {}
 
     public static <T> T getExchange(RestApiUrlBuilder<?> builder, Class<T> clz) {
         RestTemplate restTemplate = BeanUtils.getBean(RestTemplate.class);
@@ -61,7 +62,7 @@ public final class RestApiUtils {
 
         return exchange.getBody();
     }
-
+    
     private static RestTemplate getRestTemplateBean() {
         return BeanUtils.getBean(RestTemplate.class);
     }

@@ -1,25 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
-<form action="/login" method="post">
-    <table>
-        <tr>
-            <td>아이디</td>
-            <td><input type="text" name="loginId"></td>
-        </tr>
-        <tr>
-            <td>비밀번호</td>
-            <td><input type="password" name="password"></td>
-        </tr>
-    </table>
-    <div>
-        <button type="submit">로그인</button>
+<div class="container">
+    <div class="form-container">
+        <div style="text-align: center">
+            <h3>로그인</h3>
+        </div>
+        <form class="login-form" action="/login" method="post">
+            <div>
+                <span class="login-span">아이디</span>
+                <div class="login-input-form">
+                    <input class="login-input" type="text" name="loginId">
+                </div>
+                <span class="login-span">비밀번호</span>
+                <div class="login-input-form">
+                    <input class="login-input" type="password" name="password">
+                </div>
+                <div class="login-btn-form">
+                    <button class="login-btn" type="submit">로그인</button>
+                </div>
+            </div>
+        </form>
+        <div style="text-align: center">
+            <a href="/oauth2/authorization/github">
+                <img th:src="@{/img/githublogo.png}" width="200">
+            </a>
+        </div>
     </div>
-</form>
-<a href="/oauth2/authorization/github" >깃허브 로그인</a>
+</div>
 </body>
 </html>

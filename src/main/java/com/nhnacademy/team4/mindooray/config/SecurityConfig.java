@@ -1,6 +1,9 @@
 package com.nhnacademy.team4.mindooray.config;
 
-import com.nhnacademy.team4.mindooray.handler.*;
+import com.nhnacademy.team4.mindooray.handler.AccountAuthenticationFailureHandler;
+import com.nhnacademy.team4.mindooray.handler.AccountLogoutSuccessHandler;
+import com.nhnacademy.team4.mindooray.handler.LoginSuccessHandler;
+import com.nhnacademy.team4.mindooray.handler.OAuth2LoginFailure;
 import com.nhnacademy.team4.mindooray.manager.ProjectAuthorizationManager;
 import com.nhnacademy.team4.mindooray.service.AccountOAuth2Service;
 import lombok.RequiredArgsConstructor;
@@ -27,23 +30,30 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
+                .exceptionHandling(h -> h
+                        .accessDeniedPage("/403"))
                 .authorizeHttpRequests(a -> a
-                        .antMatchers("/", "/login", "/register").permitAll()
-
+                        .antMatchers("/css/**", "/img/**").permitAll()
+                        .antMatchers("/login", "/register").permitAll()
                         // 유저 관련 접근 제한
-                        .antMatchers("/projects").hasAuthority("ROLE_USER")
+                        .antMatchers("/my-page").hasAuthority("ROLE_USER")
 
                         // project 관련 접근 제한
-                        .antMatchers(HttpMethod.PUT, "/projects/{projectId}/accounts")
-                            .access(new ProjectAuthorizationManager("PROJECT_ADMIN"))
+                        .antMatchers("/projects").hasAuthority("ROLE_USER")
+                        .antMatchers("/projects/{projectId}/accounts")
+                            .access(new ProjectAuthorizationManager("projectId","PROJECT_MEMBER"))
+                        .antMatchers(HttpMethod.POST, "/projects/{projectId}/accounts/{accountId}")
+                            .access(new ProjectAuthorizationManager("projectId", "PROJECT_ADMIN"))
 
                         //task 관련 접근 제한
-                        .antMatchers("/empty")
-                            .access(new ProjectAuthorizationManager("PROJECT_MEMBER"))
+                        .antMatchers("/projects/{projectId}/tasks")
+                            .access(new ProjectAuthorizationManager("projectId", "PROJECT_MEMBER"))
+                        .antMatchers("/projects/{projectId}/create-task")
+                            .access(new ProjectAuthorizationManager("projectId", "PROJECT_MEMBER"))
 
                         // 댓글 관련 접근 제한
                         .antMatchers(HttpMethod.POST, "/empty")   // 생성
-                            .access(new ProjectAuthorizationManager("PROJECT_MEMBER"))
+                            .access(new ProjectAuthorizationManager("projectId", "PROJECT_MEMBER"))
 
                         .anyRequest().authenticated())
                 .formLogin(h -> h

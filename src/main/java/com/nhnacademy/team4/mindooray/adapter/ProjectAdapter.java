@@ -1,26 +1,22 @@
 package com.nhnacademy.team4.mindooray.adapter;
 
 import com.nhnacademy.team4.mindooray.config.ApiProperties;
+import com.nhnacademy.team4.mindooray.dto.request.CreateProjectRequest;
 import com.nhnacademy.team4.mindooray.dto.response.project.ProjectMemberResponse;
 import com.nhnacademy.team4.mindooray.dto.response.project.ProjectResponse;
 import com.nhnacademy.team4.mindooray.utils.RestApiUrlBuilder;
 import com.nhnacademy.team4.mindooray.utils.RestApiUtils;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class ProjectAdapter {
-    private final RestTemplate restTemplate;
     private final String projectUrl;
 
-    public ProjectAdapter(RestTemplate restTemplate, ApiProperties apiProperties) {
-        this.restTemplate = restTemplate;
+    public ProjectAdapter(ApiProperties apiProperties) {
         this.projectUrl = apiProperties.getProject();
     }
 
@@ -36,7 +32,7 @@ public class ProjectAdapter {
 //        RestApiUtils.getExchange(builder, ProjectMemberResponse.class);
 
         ProjectMemberResponse response = new ProjectMemberResponse();
-        response.setProjectRole("PROJECT_ADMIN");
+        response.setProjectRole("PROJECT_MEMBER");
         return response;
     }
 
@@ -72,5 +68,17 @@ public class ProjectAdapter {
             projectResponseList.add(projectResponse);
         }
         return projectResponseList;
+    }
+
+    public void createProject(long accountId, CreateProjectRequest createProjectRequest) {
+        RestApiUrlBuilder<CreateProjectRequest> builder = RestApiUrlBuilder.builder()
+                .url(projectUrl)
+                .method(HttpMethod.POST)
+                .header("Accept", "application/json")
+                .param("accountId", accountId)
+                .body(createProjectRequest)
+                .build();
+
+        RestApiUtils.getExchange(builder, String.class);
     }
 }

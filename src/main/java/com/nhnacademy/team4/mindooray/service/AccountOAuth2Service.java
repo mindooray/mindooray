@@ -1,7 +1,7 @@
 package com.nhnacademy.team4.mindooray.service;
 
 import com.nhnacademy.team4.mindooray.adapter.AccountAdapter;
-import com.nhnacademy.team4.mindooray.controller.AccountDetails;
+import com.nhnacademy.team4.mindooray.domain.AccountDetails;
 import com.nhnacademy.team4.mindooray.dto.response.account.LoginResponse;
 import com.nhnacademy.team4.mindooray.exception.AuthenticationNotFoundEmailException;
 import lombok.RequiredArgsConstructor;

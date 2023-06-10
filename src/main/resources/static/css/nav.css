@@ -1,0 +1,18 @@
+#top-nav {
+    height: 60px;
+    width: 100%;
+    background-color: lightslategray;
+}
+
+#top-nav ul li {
+    list-style: none;
+    background-color: aqua;
+    float: left;
+    vertical-align: center;
+    text-align: center;
+}
+
+#top-nav ul {
+    display: flex;
+    justify-content: space-between;
+}

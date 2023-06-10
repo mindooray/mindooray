@@ -15,11 +15,11 @@ public class OAuth2LoginFailure implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         if (exception instanceof AuthenticationNotFoundEmailException) {
             String githubEmail = ((AuthenticationNotFoundEmailException) exception).getGithubEmail();
-            NotFoundEmailExceptionRedirectWithGithubEmail(request, response, githubEmail);
+            notFoundEmailExceptionRedirectWithGithubEmail(request, response, githubEmail);
         }
     }
 
-    private void NotFoundEmailExceptionRedirectWithGithubEmail(HttpServletRequest request, HttpServletResponse response, String email) throws IOException {
+    private void notFoundEmailExceptionRedirectWithGithubEmail(HttpServletRequest request, HttpServletResponse response, String email) throws IOException {
         HttpSession session = request.getSession(true);
         session.setAttribute("github", email);
 

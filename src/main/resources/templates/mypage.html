@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>마이페이지</title>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
 </head>
 <body>
-
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
+<div>
+    <div>
+        <span>아이디</span>
+        <p th:text="${account.loginId}"></p>
+        <span>비밀번호</span>
+        <p th:text="${account.email}"></p>
+    </div>
+    <div>
+        <a href="/account/update">수정</a>
+    </div>
+</div>
 </body>
 </html>

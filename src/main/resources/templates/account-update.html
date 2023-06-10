@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Account</title>
+</head>
+<body>
+
+<div>
+    <form th:action="@{__${#request.requestURI}__}" method="post">
+    <span>아이디</span>
+    <div>
+        <input type="text" th:value="${account.loginId}" name="loginId">
+    </div>
+    <span>이메일</span>
+    <div>
+        <input type="text" th:value="${account.email}" name="email">
+    </div>
+    <span>비밀번호</span>
+    <div>
+        <input type="password" name="password">
+    </div>
+        <div>
+            <button type="submit">수정</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

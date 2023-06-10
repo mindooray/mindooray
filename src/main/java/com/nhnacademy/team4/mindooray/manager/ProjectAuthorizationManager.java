@@ -21,8 +21,11 @@ public class ProjectAuthorizationManager implements AuthorizationManager<Request
     private static final SimpleGrantedAuthority ROLE_USER = new SimpleGrantedAuthority("ROLE_USER");
     private static final SimpleGrantedAuthority ROLE_ADMIN = new SimpleGrantedAuthority("ROLE_ADMIN");
     private static final String PROJECT_ADMIN = "PROJECT_ADMIN";
+    private final String targetDomain;
     private final String role;
-    public ProjectAuthorizationManager(String role) {
+
+    public ProjectAuthorizationManager(String targetDomain, String role) {
+        this.targetDomain = targetDomain;
         this.role = role;
     }
     @Override
@@ -36,7 +39,7 @@ public class ProjectAuthorizationManager implements AuthorizationManager<Request
                 .orElseThrow();
         String sessionId = cookie.getValue();
 
-        long projectId = Long.parseLong(object.getVariables().get("projectId"));
+        long projectId = Long.parseLong(object.getVariables().get(targetDomain));
         return new AuthorizationDecision(checkProjectAuthority(sessionId, projectId));
     }
 

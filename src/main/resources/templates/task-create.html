@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>create-task</title>
+    <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
+    <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
+    <link rel="stylesheet" th:href="@{/css/task-create.css}">
+    <script type="text/javascript">
+        function calendarShow() {
+            const startCalendar = document.getElementById("milestoneStartDateId");
+            const endCalendar = document.getElementById("milestoneEndDateId");
+
+            startCalendar.style.visibility = "visible";
+            endCalendar.style.visibility = "visible";
+        }
+
+        function calendarHidden() {
+            const startCalendar = document.getElementById("milestoneStartDateId");
+            const endCalendar = document.getElementById("milestoneEndDateId");
+
+            startCalendar.style.visibility = "hidden";
+            endCalendar.style.visibility = "hidden";
+        }
+
+        function tagButton() {
+            const tagSelect = document.getElementById("tagSelectId");
+
+            if (tagSelect.style.visibility === "visible") {
+                tagSelect.style.visibility = "hidden";
+            } else {
+                tagSelect.style.visibility = "visible";
+            }
+        }
+    </script>
+</head>
+<body>
+<nav th:replace="/fragments/nav-fragment.html :: nav"></nav>
+<div style="display: flex">
+    <nav th:replace="/fragments/side-menu-fragment.html :: side-menu"></nav>
+    <div>
+        <form th:action="@{__${#request.requestURI}__}" method="post">
+            <h1>Create Task</h1>
+            <span>title</span>
+            <input type="text" name="title">
+            <span>content</span>
+            <textarea name="content"></textarea>
+            <div>
+                <input id="milestoneYes" type="radio" name="milestone" value="yes" onclick="calendarShow()">
+                <label for="milestoneYes">있음</label>
+                <input id="milestoneNo" type="radio" name="milestone" value="no" checked="checked"
+                       onclick="calendarHidden()">
+                <label for="milestoneNo">없음</label>
+                <div>
+                    <input id="milestoneStartDateId" style="visibility: hidden;" type="date" name="milestoneStartDate">
+                    <input id="milestoneEndDateId" style="visibility: hidden;" type="date" name="milestoneEndDate">
+                </div>
+
+            </div>
+            <button type="button" onclick="tagButton()">태그</button>
+            <div id="tagSelectId" class="tag-select-visibility">
+                <div class="tag-select">
+                    <div th:each="tag : ${tagList}">
+                        <input type="checkbox" name="tags" th:value="${tag.tagId}">
+                        <span th:text="${tag.tagName}"></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="submit">등록</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

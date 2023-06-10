@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="side-menu-header">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/side-menu.css}">
+    <link rel="stylesheet" href="../../static/css/side-menu.css">
+</head>
+<body>
+<div th:fragment="side-menu">
+    <nav class="container">
+    <h1>프로젝트</h1>
+        <table>
+            <tbody>
+            <tr th:each="project : ${projectList}"
+                th:onclick="|location.href='@{/projects/{projectId}/tasks(projectId=${project.id})}'|">
+                <td th:text="${project.title}">title</td>
+            </tr>
+            </tbody>
+        </table>
+    </nav>
+</div>
+</body>
+</html>

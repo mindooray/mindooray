@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>상세정보</title>
+    <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
     <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
-    <th:block th:replace="/fragments/nav-fragment.html :: nav-header" />
 </head>
 <body>
 <div th:replace="/fragments/nav-fragment.html :: nav"></div>
 <div style="display: flex">
     <div th:replace="/fragments/side-menu-fragment.html :: side-menu"></div>
+    <div>
+        <h1>task details</h1>
+    </div>
+    <div>
+        <h1>comment</h1>
+    </div>
 </div>
 </body>
 </html>

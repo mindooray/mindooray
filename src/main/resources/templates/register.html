@@ -3,21 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+    <link rel="stylesheet" href="../static/css/register.css">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
 <body>
-<form action="/register" method="post">
-    <div>
-        <input type="text" name="loginId">
+<div class="container">
+    <div class="form-container">
+        <div style="text-align: center">
+            <h3>회원가입</h3>
+        </div>
+        <form class="register-form" action="/register" method="post">
+            <div>
+                <span>아이디</span>
+                <div>
+                    <input class="register-input" type="text" name="loginId">
+                </div>
+                <span>이메일</span>
+                <div>
+                    <input class="register-input" type="text" name="email" th:value="${session.get('github')}">
+                </div>
+                <span>비밀번호</span>
+                <div>
+                    <input class="register-input" type="password" name="password">
+                </div>
+                <div class="register-btn-form">
+                    <button class="register-btn" type="submit">회원가입</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div>
-        <input type="text" name="email" th:value="${session.get('github')}">
-    </div>
-    <div>
-        <input type="password" name="password">
-    </div>
-    <div>
-        <button type="submit">회원가입</button>
-    </div>
-</form>
+</div>
 </body>
 </html>

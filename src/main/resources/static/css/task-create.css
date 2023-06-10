@@ -1,0 +1,14 @@
+.tag-select-visibility {
+    visibility: hidden;
+}
+
+.tag-select {
+    position: absolute;
+    border-radius: 5px;
+    width: 150px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}

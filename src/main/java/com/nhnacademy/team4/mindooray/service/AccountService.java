@@ -1,8 +1,9 @@
 package com.nhnacademy.team4.mindooray.service;
 
 import com.nhnacademy.team4.mindooray.adapter.AccountAdapter;
-import com.nhnacademy.team4.mindooray.controller.AccountDetails;
+import com.nhnacademy.team4.mindooray.domain.AccountDetails;
 import com.nhnacademy.team4.mindooray.dto.request.CreateAccountRequest;
+import com.nhnacademy.team4.mindooray.dto.request.UpdateAccountRequest;
 import com.nhnacademy.team4.mindooray.dto.response.account.AccountResponse;
 import com.nhnacademy.team4.mindooray.dto.response.account.LoginResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,11 @@ public class AccountService implements UserDetailsService {
 
     public long getAccountIdByLoginId(String loginId) {
         AccountResponse accountResponse = accountAdapter.getAccountByLoginId(loginId);
-        return accountResponse.getId();
+        return accountResponse.getAccountId();
+    }
+
+    public AccountResponse getAccount(long accountId) {
+        return accountAdapter.getAccountById(accountId);
     }
 
     @Override
@@ -42,5 +47,10 @@ public class AccountService implements UserDetailsService {
         }
 
         return accountDetails;
+    }
+
+    public void updateAccount(long accountId, UpdateAccountRequest updateAccountRequest) {
+        updateAccountRequest.setPassword(passwordEncoder.encode(updateAccountRequest.getPassword()));
+        accountAdapter.updateAccount(accountId, updateAccountRequest);
     }
 }

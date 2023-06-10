@@ -13,7 +13,6 @@ import java.io.IOException;
 public class AccountAuthenticationFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        exception.printStackTrace();
         response.sendRedirect("/login");
     }
 }

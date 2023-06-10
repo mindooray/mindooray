@@ -3,16 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Task</title>
+    <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
+    <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
+    <link rel="stylesheet" th:href="@{/css/task.css}">
+    <script type="text/javascript">
+        function projectURL(taskId) {
+            const path = window.location.pathname.split("/");
+            const projectId = path.at(path.length - 2);
+            console.log(projectId);
+            window.location.href = `/projects/${projectId}/tasks/${taskId}`;
+        }
+    </script>
 </head>
 <body>
-<table>
-  <tr th:each="task : ${taskList}">
-    <td th:text="${task.title}"></td>
-    <td th:text="${task.projectTitle}"></td>
-    <td th:text="${task.number}"></td>
-    <td th:text="${task.representative}"></td>
-    <td th:text="${task.status}"></td>
-  </tr>
-</table>
+<div th:replace="/fragments/nav-fragment.html :: nav"></div>
+<div style="display: flex;">
+    <div th:replace="/fragments/side-menu-fragment.html :: side-menu"></div>
+    <div class="task-container">
+        <div class="task-list-container">
+            <div>
+                <a th:href="@{__${#request.requestURI}__/create}">task 작성</a>
+            </div>
+            <div>
+                <table>
+                    <tr th:each="task : ${taskList}" th:onclick="|projectURL('${task.id}')|">
+                        <td th:text="${task.title}"></td>
+                        <td th:text="${task.projectTitle}"></td>
+                        <td th:text="${task.number}"></td>
+                        <td th:text="${task.representative}"></td>
+                        <td th:text="${task.status}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="tag-container">
+            <h1>member list</h1>
+        </div>
+    </div>
+</div>
 </body>
 </html>

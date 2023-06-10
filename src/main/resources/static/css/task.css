@@ -1,0 +1,14 @@
+.task-container {
+    display: flex;
+    width: 100%;
+}
+
+.task-list-container {
+    flex: 4;
+}
+
+.tag-container {
+    flex: 3;
+    height: 100px;
+    border: 1px solid black;
+}
