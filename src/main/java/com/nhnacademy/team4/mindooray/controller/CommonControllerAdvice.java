@@ -2,6 +2,7 @@ package com.nhnacademy.team4.mindooray.controller;
 
 import com.nhnacademy.team4.mindooray.domain.AccountDetails;
 import com.nhnacademy.team4.mindooray.dto.response.project.ProjectResponse;
+import com.nhnacademy.team4.mindooray.exception.RedisSessionAccountIdNotFoundException;
 import com.nhnacademy.team4.mindooray.repository.RedisRepository;
 import com.nhnacademy.team4.mindooray.service.ProjectService;
 import com.nhnacademy.team4.mindooray.utils.CookieUtils;
@@ -10,10 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,5 +46,10 @@ public class CommonControllerAdvice {
         List<ProjectResponse> projects = projectService.getProjects(accountId);
 
         model.addAttribute("projectList", projects);
+    }
+
+    @ExceptionHandler(RedisSessionAccountIdNotFoundException.class)
+    public String accountIdNotFound(HttpServletResponse response) throws IOException {
+        return "redirect:/login";
     }
 }

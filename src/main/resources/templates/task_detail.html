@@ -5,16 +5,46 @@
     <title>상세정보</title>
     <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
     <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
+    <link rel="stylesheet" th:href="@{/css/task-detail.css}">
 </head>
 <body>
 <div th:replace="/fragments/nav-fragment.html :: nav"></div>
 <div style="display: flex">
     <div th:replace="/fragments/side-menu-fragment.html :: side-menu"></div>
-    <div>
-        <h1>task details</h1>
-    </div>
-    <div>
-        <h1>comment</h1>
+    <div class="task-detail-container">
+        <div class="task-detail">
+            <div>
+                <span th:text="${task.projectName}"></span>
+                <h2 th:text="${task.title}"></h2>
+                <div th:text="${task.createDate}"></div>
+                <div th:text="${T(com.nhnacademy.team4.mindooray.domain.type.TaskStatus).valueOf(task.status).name}"></div>
+                <div th:text="${task.accountName}"></div>
+            </div>
+            <hr/>
+            <div>
+                <div th:text="${task.content}"></div>
+            </div>
+        </div>
+        <div class="comment-container">
+            <div>
+                <h3>comment</h3>
+                <div class="comment-list" th:each="comment : ${commentList}">
+                    <div>
+                        <span th:text="${comment.accountName}"></span>
+                        <span th:text="${comment.createTime}"></span>
+                    </div>
+                    <div>
+                        <span th:text="${comment.content}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <form th:action="@{/tasks/{taskId}/comments(taskId=${taskId})}" method="post">
+                <textarea name="content"></textarea>
+                <button type="submit">댓글 작성</button>
+            </form>
+        </div>
     </div>
 </div>
 </body>

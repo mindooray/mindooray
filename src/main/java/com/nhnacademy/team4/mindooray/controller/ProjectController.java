@@ -4,6 +4,7 @@ import com.nhnacademy.team4.mindooray.dto.request.CreateProjectRequest;
 import com.nhnacademy.team4.mindooray.repository.RedisRepository;
 import com.nhnacademy.team4.mindooray.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectController {
     private final ProjectService projectService;
     private final RedisRepository redisRepository;
+
+    @GetMapping({"/", "/home"})
+    public String index(
+            @CookieValue("SESSION") String key
+    ) {
+        return "index";
+    }
 
     /**
      * 프로젝트에 속한 어카운트 리스트
@@ -27,6 +35,11 @@ public class ProjectController {
             Model model
     ) {
         return null;
+    }
+
+    @GetMapping("/projects/create")
+    public String createProjectView() {
+        return "project-create";
     }
 
 
@@ -58,7 +71,7 @@ public class ProjectController {
     ) {
         long accountId = redisRepository.getSessionAccountId(key);
         projectService.createProject(accountId, createProjectRequest);
-        return "redirect:/project";
+        return "redirect:/";
     }
 
 }

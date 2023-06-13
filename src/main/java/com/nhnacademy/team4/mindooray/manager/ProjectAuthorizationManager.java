@@ -5,6 +5,7 @@ import com.nhnacademy.team4.mindooray.dto.response.project.ProjectMemberResponse
 import com.nhnacademy.team4.mindooray.repository.RedisRepository;
 import com.nhnacademy.team4.mindooray.utils.BeanUtils;
 import com.nhnacademy.team4.mindooray.utils.CookieUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.function.Supplier;
 
+
+@Slf4j
 public class ProjectAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
     private static final SimpleGrantedAuthority ROLE_USER = new SimpleGrantedAuthority("ROLE_USER");
     private static final SimpleGrantedAuthority ROLE_ADMIN = new SimpleGrantedAuthority("ROLE_ADMIN");

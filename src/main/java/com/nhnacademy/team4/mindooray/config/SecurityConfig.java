@@ -4,19 +4,26 @@ import com.nhnacademy.team4.mindooray.handler.AccountAuthenticationFailureHandle
 import com.nhnacademy.team4.mindooray.handler.AccountLogoutSuccessHandler;
 import com.nhnacademy.team4.mindooray.handler.LoginSuccessHandler;
 import com.nhnacademy.team4.mindooray.handler.OAuth2LoginFailure;
+import com.nhnacademy.team4.mindooray.manager.ExceptionFilter;
 import com.nhnacademy.team4.mindooray.manager.ProjectAuthorizationManager;
 import com.nhnacademy.team4.mindooray.service.AccountOAuth2Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
     private static final String LOGIN_URI = "/login";
@@ -25,11 +32,13 @@ public class SecurityConfig {
     private final LoginSuccessHandler loginSuccessHandler;
     private final AccountAuthenticationFailureHandler accountAuthenticationFailureHandler;
     private final AccountLogoutSuccessHandler accountLogoutSuccessHandler;
+    private final PermissionEvaluator permissionEvaluator;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
+                .addFilterBefore(new ExceptionFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(h -> h
                         .accessDeniedPage("/403"))
                 .authorizeHttpRequests(a -> a
@@ -39,7 +48,10 @@ public class SecurityConfig {
                         .antMatchers("/my-page").hasAuthority("ROLE_USER")
 
                         // project 관련 접근 제한
+                        .antMatchers("/projects/create").hasAuthority("ROLE_USER")
                         .antMatchers("/projects").hasAuthority("ROLE_USER")
+                        .antMatchers("/projects/{projectId}")
+                            .access(new ProjectAuthorizationManager("projectId", "PROJECT_ADMIN"))
                         .antMatchers("/projects/{projectId}/accounts")
                             .access(new ProjectAuthorizationManager("projectId","PROJECT_MEMBER"))
                         .antMatchers(HttpMethod.POST, "/projects/{projectId}/accounts/{accountId}")
@@ -75,7 +87,6 @@ public class SecurityConfig {
                 )
                 .logout(h -> h
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl(LOGIN_URI)
                         .logoutSuccessHandler(accountLogoutSuccessHandler)
                         .invalidateHttpSession(true)
                 )
@@ -83,7 +94,20 @@ public class SecurityConfig {
     }
 
     @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(permissionEvaluator);
+
+        return (web) -> web.expressionHandler(expressionHandler);
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//    @Override
+//    protected MethodSecurityExpressionHandler createExpressionHandler() {
+//        return expressionHandler;
+//    }
 }

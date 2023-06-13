@@ -21,7 +21,7 @@ import java.util.UUID;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private static final int EXPIRE_TIME_SECOND = 600;
     private static final String SESSION_NAME = "SESSION";
     private static final String ACCOUNT_ID = "accountId";

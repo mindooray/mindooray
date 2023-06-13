@@ -1,12 +1,17 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
 #top-nav {
     height: 60px;
     width: 100%;
-    background-color: lightslategray;
+    background-color: #39405a;
 }
 
 #top-nav ul li {
     list-style: none;
-    background-color: aqua;
+    background-color: #2a3044;
     float: left;
     vertical-align: center;
     text-align: center;
@@ -15,4 +20,9 @@
 #top-nav ul {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+#top-nav div {
+    margin: 20px 40px;
 }

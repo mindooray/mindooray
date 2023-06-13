@@ -13,12 +13,15 @@ import java.util.List;
 @Setter
 @Getter
 public class CreateTaskRequest {
+    private Long accountId;
     private String title;
     private String content;
     private String milestone;
+    private String milestoneName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate milestoneStartDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate milestoneEndDate;
+    private Boolean deadlineStatus;
     private List<Long> tags;
 }

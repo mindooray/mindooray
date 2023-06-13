@@ -7,20 +7,16 @@
     <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
     <link rel="stylesheet" th:href="@{/css/task-create.css}">
     <script type="text/javascript">
-        function calendarShow() {
-            const startCalendar = document.getElementById("milestoneStartDateId");
-            const endCalendar = document.getElementById("milestoneEndDateId");
+        function milestoneVisible() {
+            const milestone = document.getElementById("milestoneId");
 
-            startCalendar.style.visibility = "visible";
-            endCalendar.style.visibility = "visible";
+            milestone.style.visibility = "visible";
         }
 
-        function calendarHidden() {
-            const startCalendar = document.getElementById("milestoneStartDateId");
-            const endCalendar = document.getElementById("milestoneEndDateId");
+        function milestoneHidden() {
+            const milestone = document.getElementById("milestoneId");
 
-            startCalendar.style.visibility = "hidden";
-            endCalendar.style.visibility = "hidden";
+            milestone.style.visibility = "hidden";
         }
 
         function tagButton() {
@@ -40,20 +36,33 @@
     <nav th:replace="/fragments/side-menu-fragment.html :: side-menu"></nav>
     <div>
         <form th:action="@{__${#request.requestURI}__}" method="post">
-            <h1>Create Task</h1>
-            <span>title</span>
-            <input type="text" name="title">
-            <span>content</span>
-            <textarea name="content"></textarea>
+            <h1>업무 등록</h1>
             <div>
-                <input id="milestoneYes" type="radio" name="milestone" value="yes" onclick="calendarShow()">
+                <label for="taskTitleInput">제목</label>
+                <input id="taskTitleInput" type="text" name="title">
+            </div>
+            <div>
+                <label>내용</label>
+                <div>
+                    <textarea id="taskContentInput" name="content" rows="10" cols="100"></textarea>
+                </div>
+            </div>
+            <div>
+                <input id="milestoneYes" type="radio" name="milestone" value="yes" onclick="milestoneVisible()">
                 <label for="milestoneYes">있음</label>
                 <input id="milestoneNo" type="radio" name="milestone" value="no" checked="checked"
-                       onclick="calendarHidden()">
+                       onclick="milestoneHidden()">
                 <label for="milestoneNo">없음</label>
-                <div>
-                    <input id="milestoneStartDateId" style="visibility: hidden;" type="date" name="milestoneStartDate">
-                    <input id="milestoneEndDateId" style="visibility: hidden;" type="date" name="milestoneEndDate">
+                <div id="milestoneId" class="milestone-visibility">
+                    <label for="milestoneNameId">마일스톤명</label>
+                    <input id="milestoneNameId" type="text" name="milestoneName">
+                    <input type="date" name="milestoneStartDate">
+                    <input type="date" name="milestoneEndDate">
+                    <span>기한</span>
+                    <input id="deadlineStatusYes" type="radio" name="deadlineStatus">
+                    <label for="deadlineStatusYes">있음</label>
+                    <input id="deadlineStatusNo" type="radio" name="deadlineStatus">
+                    <label for="deadlineStatusNo">없음</label>
                 </div>
 
             </div>

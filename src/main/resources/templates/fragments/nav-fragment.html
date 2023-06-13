@@ -8,15 +8,15 @@
     <nav id="top-nav">
         <ul>
             <div>
-                <li th:if="${#request.getRequestURI().contains('my-page')}">
-                    <a href="/">프로젝트</a>
+                <li th:if="${#request.getRequestURI().contains('account')}">
+                    <a href="/" style="color: white">프로젝트</a>
                 </li>
-                <li th:if="${!#request.getRequestURI().contains('my-page')}" >
-                    <a href="/account">마이페이지</a>
+                <li th:if="${!#request.getRequestURI().contains('account')}" >
+                    <a href="/account" style="color: white">마이페이지</a>
                 </li>
             </div>
             <div>
-                <li sec:authorize="isAuthenticated()">
+                <li sec:authentication="name" sec:authorize="isAuthenticated()">
                     <form action="/logout" method="post">
                         <button type="submit">로그아웃</button>
                     </form>

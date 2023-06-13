@@ -1,9 +1,11 @@
 package com.nhnacademy.team4.mindooray.repository;
 
+import com.nhnacademy.team4.mindooray.exception.RedisSessionAccountIdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Repository
@@ -21,7 +23,11 @@ public class RedisRepository {
     }
 
     public Long getSessionAccountId(String key) {
-        return Long.parseLong(String.valueOf(redisTemplate.opsForHash().get(key, "accountId")));
+        Object o = redisTemplate.opsForHash().get(key, "accountId");
+        if(Objects.isNull(o)) {
+            throw new RedisSessionAccountIdNotFoundException();
+        }
+        return Long.parseLong(String.valueOf(o));
     }
 
     public void remove(String key) {

@@ -12,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -116,6 +117,24 @@ public class AccountAdapter {
                 builder,
                 AccountResponse.class
         );
+    }
+
+    /**
+     * account id 들로 account 조회
+     * project 에 속한 account 정보들을 가져오기 위해 필요
+     *
+     * @param accountIds
+     * @return
+     */
+    public List<AccountResponse> getAccounts(List<Long> accountIds) {
+        RestApiUrlBuilder<Void> builder = RestApiUrlBuilder.builder()
+                .url(accountUrl + "/projects")
+                .method(HttpMethod.GET)
+                .header("Accept", "application/json")
+                .param("accountId", accountIds)
+                .build();
+
+        return RestApiUtils.getExchangeList(builder, AccountResponse.class);
     }
 
     /**

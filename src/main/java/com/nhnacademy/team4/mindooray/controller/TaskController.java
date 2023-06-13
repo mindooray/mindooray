@@ -1,11 +1,14 @@
 package com.nhnacademy.team4.mindooray.controller;
 
+import com.nhnacademy.team4.mindooray.dto.CommentDTO;
+import com.nhnacademy.team4.mindooray.dto.TaskDTO;
 import com.nhnacademy.team4.mindooray.dto.request.CreateTaskRequest;
+import com.nhnacademy.team4.mindooray.dto.response.CommentResponse;
+import com.nhnacademy.team4.mindooray.dto.response.account.AccountResponse;
 import com.nhnacademy.team4.mindooray.dto.response.project.ProjectTagResponse;
 import com.nhnacademy.team4.mindooray.dto.task.TaskResponse;
 import com.nhnacademy.team4.mindooray.repository.RedisRepository;
-import com.nhnacademy.team4.mindooray.service.TagService;
-import com.nhnacademy.team4.mindooray.service.TaskService;
+import com.nhnacademy.team4.mindooray.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +22,9 @@ import java.util.List;
 public class TaskController {
     private final TaskService taskService;
     private final TagService tagService;
+    private final ProjectService projectService;
+    private final AccountService accountService;
+    private final CommentService commentService;
     private final RedisRepository redisRepository;
 
     /**
@@ -33,27 +39,47 @@ public class TaskController {
             @PathVariable("projectId") Long projectId,
             Model model
     ) {
+        // 프로젝트 id
+        model.addAttribute("projectId", projectId);
         // Task 리스트 가져오기
-        List<TaskResponse> tasks = taskService.getTasks(projectId);
+        List<TaskDTO> tasks = taskService.getTasks(projectId);
         model.addAttribute("taskList", tasks);
 
+        // tag 리스트 가져오기
+        List<ProjectTagResponse> tagList = tagService.getProjectTags(projectId);
+        model.addAttribute("tagList", tagList);
+
         // project member 리스트 가져오기
+        List<Long> projectAccountIdList = projectService.getProjectAccountIds(projectId);
+        List<AccountResponse> accountList = accountService.getAccounts(projectAccountIdList);
+        model.addAttribute("accountList", accountList);
+
+        // 전체 멤버 가져오기
+        List<AccountResponse> totalAccountList = accountService.getAccounts();
+        model.addAttribute("totalAccount", totalAccountList);
 
         return "task";
     }
 
     /**
+     * task 상세 정보
      * @param taskId
      * @param model
      * @return
      */
     @GetMapping("/{taskId}")
     public String getTasks(
+            @PathVariable("projectId") Long projectId,
             @PathVariable("taskId") Long taskId,
             Model model
     ) {
-        TaskResponse taskResponse = taskService.getTask(taskId);
-        model.addAttribute("task", taskResponse);
+        // task 정보 가져오기
+        TaskDTO taskDTO= taskService.getTask(projectId, taskId);
+        model.addAttribute("task", taskDTO);
+
+        List<CommentDTO> commentList = commentService.getTaskComments(taskId);
+        model.addAttribute("commentList", commentList);
+
         return "task_detail";
     }
 

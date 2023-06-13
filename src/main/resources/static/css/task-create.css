@@ -1,3 +1,7 @@
+.milestone-visibility {
+    visibility: hidden;
+}
+
 .tag-select-visibility {
     visibility: hidden;
 }
@@ -5,10 +9,29 @@
 .tag-select {
     position: absolute;
     border-radius: 5px;
-    width: 150px;
+    min-height: 50px;
     border: 1px solid black;
+    width: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: white;
+}
+
+.form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-create-title > div {
+    height: 40px;
+}
+
+#taskTitleInput {
+    height: 30px;
+    width: 100%;
+}
+
+#taskContentInput {
+    resize: none;
 }

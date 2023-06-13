@@ -4,14 +4,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @Getter
 @Setter
 public class TaskResponse {
-    private long id;
+    private long taskId;
+    private long accountId;
+    private String projectName;
     private String title;
-    private String projectTitle;
-    private int number;
-    private String representative;
+    private String content;
     private String status;
+    private LocalDateTime createDate;
 }

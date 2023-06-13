@@ -4,11 +4,13 @@ import lombok.Getter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 public final class RestApiUrlBuilder<T> {
@@ -37,6 +39,7 @@ public final class RestApiUrlBuilder<T> {
             String value = String.valueOf(entry.getValue());
             uri = uri.queryParam(key, value);
         }
+        uri = uri.queryParams(builder.multiValueParams);
         return uri;
     }
 
@@ -51,6 +54,7 @@ public final class RestApiUrlBuilder<T> {
     public static class Builder {
         private String url;
         private Map<String, Object> params;
+        private MultiValueMap<String, String> multiValueParams;
         private Map<String, Object> pathVariable;
         private Map<String, String> headers;
         private HttpMethod method;
@@ -60,6 +64,7 @@ public final class RestApiUrlBuilder<T> {
             this.params = new HashMap<>();
             this.pathVariable = new HashMap<>();
             this.headers = new HashMap<>();
+            this.multiValueParams = new LinkedMultiValueMap<>();
         }
 
         public Builder url(String url) {
@@ -74,6 +79,19 @@ public final class RestApiUrlBuilder<T> {
 
         public Builder param(String key, Object value) {
             this.params.put(key, value);
+            return this;
+        }
+
+        public Builder param(String key, Collection<?> ids) {
+            List<String> collect = ids.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.toList());
+            StringBuilder sb = new StringBuilder();
+            for(String value : collect) {
+                sb.append(value).append(",");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            this.params.put(key, sb.toString());
             return this;
         }
 

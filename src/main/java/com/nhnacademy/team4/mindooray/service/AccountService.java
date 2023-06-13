@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +28,16 @@ public class AccountService implements UserDetailsService {
         return accountAdapter.register(createAccountRequest);
     }
 
-    public long getAccountIdByLoginId(String loginId) {
-        AccountResponse accountResponse = accountAdapter.getAccountByLoginId(loginId);
-        return accountResponse.getAccountId();
-    }
-
     public AccountResponse getAccount(long accountId) {
         return accountAdapter.getAccountById(accountId);
+    }
+
+    public List<AccountResponse> getAccounts(List<Long> accountIds) {
+        return accountAdapter.getAccounts(accountIds);
+    }
+
+    public List<AccountResponse> getAccounts() {
+        return accountAdapter.getAccounts();
     }
 
     @Override

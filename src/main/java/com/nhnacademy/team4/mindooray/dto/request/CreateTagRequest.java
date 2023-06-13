@@ -7,8 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateProjectRequest {
-    private Long accountId;
-    private String title;
-    private String description;
+public class CreateTagRequest {
+    private Long projectId;
+    private String name;
 }
