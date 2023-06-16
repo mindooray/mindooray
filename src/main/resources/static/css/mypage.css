@@ -1,0 +1,21 @@
+.mypage-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.mypage-info {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.mypage-info > input {
+    width: 300px;
+    padding-left: 10px;
+    background-color: #e5e4e4;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    font-size: 18px;
+}

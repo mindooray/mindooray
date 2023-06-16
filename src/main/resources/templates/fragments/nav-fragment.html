@@ -16,7 +16,7 @@
                 </li>
             </div>
             <div>
-                <li sec:authentication="name" sec:authorize="isAuthenticated()">
+                <li sec:authorize="isAuthenticated()">
                     <form action="/logout" method="post">
                         <button type="submit">로그아웃</button>
                     </form>

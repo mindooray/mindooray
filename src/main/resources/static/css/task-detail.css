@@ -10,6 +10,7 @@
     width: 90%;
     border: 1px solid black;
     border-radius: 5px;
+    margin: 10px;
 }
 
 .task-detail > div {
@@ -17,13 +18,45 @@
     padding: 10px;
 }
 
+.task-head-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-tag-head {
+    border: 1px solid black;
+    background-color: gainsboro;
+    border-radius: 3px;
+}
+
+.task-tag-head:hover {
+    cursor: pointer;
+}
+
+.task-tag {
+    display: flex;
+    justify-content: left;
+}
+
+#taskTagContainerId {
+    display: none;
+}
+
+#taskTagContainerId > div {
+    position: absolute;
+    border: 1px solid black;
+    width: 100px;
+    background-color: white;
+    height: 250px;
+}
+
 .comment-container {
-    max-height: 400px;
-    overflow: auto;
-    margin-top: 30px;
     width: 90%;
     border: 1px solid black;
     border-radius: 5px;
+    max-height: 400px;
+    overflow: auto;
+    margin-top: 30px;
 }
 
 .comment-container > div {
@@ -39,4 +72,30 @@
 
 .comment-list > div {
     padding: 5px;
+}
+
+.comment-write-container {
+    border: none;
+}
+
+.comment-write-form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-write > textarea {
+    resize: none;
+    padding: 10px;
+}
+
+.comment-write-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.comment-write-button > button {
+    margin-right: 20px;
+    height: 40px;
+    width: 90px;
 }

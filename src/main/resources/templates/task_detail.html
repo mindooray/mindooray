@@ -6,6 +6,17 @@
     <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
     <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
     <link rel="stylesheet" th:href="@{/css/task-detail.css}">
+    <script type="text/javascript">
+        function taskTagShow() {
+            const taskTag = document.getElementById("taskTagContainerId");
+
+            if (taskTag.style.display === "none") {
+                taskTag.style.display = "block";
+            } else {
+                taskTag.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
 <div th:replace="/fragments/nav-fragment.html :: nav"></div>
@@ -13,12 +24,46 @@
     <div th:replace="/fragments/side-menu-fragment.html :: side-menu"></div>
     <div class="task-detail-container">
         <div class="task-detail">
-            <div>
-                <span th:text="${task.projectName}"></span>
-                <h2 th:text="${task.title}"></h2>
-                <div th:text="${task.createDate}"></div>
-                <div th:text="${T(com.nhnacademy.team4.mindooray.domain.type.TaskStatus).valueOf(task.status).name}"></div>
-                <div th:text="${task.accountName}"></div>
+            <div class="task-head-container">
+                <div>
+                    <span>프로젝트</span>
+                    <span th:text="${task.projectName}"></span>
+                    <h2 th:text="${task.title}"></h2>
+                    <span>작성자</span>
+                    <span th:text="${task.accountName}"></span>
+                    <div>
+                        <button type="button" class="task-tag-head" onclick="taskTagShow()">태그</button>
+                        <div id="taskTagContainerId">
+                            <div>
+                                <form th:action="@{/projects/{projectId}/tasks/{taskId}/tags(taskId=${taskId}, projectId=${projectId})}"
+                                      method="post">
+                                    <div th:each="tag : ${tagList}">
+                                        <input type="checkbox" name="tagIds" th:value="${tag.tagId}"><span
+                                            th:text="${tag.tagName}"></span>
+                                    </div>
+                                    <div>
+                                        <button type="submit">추가</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <span style="border: 1px solid black; margin: 2px;" th:each="taskTag : ${taskTagList}"
+                          th:text="${taskTag.tagName}"></span>
+                </div>
+                <div>
+                    <span>작성일</span>
+                    <span th:text="${task.createDate}"></span>
+                    <div th:text="${T(com.nhnacademy.team4.mindooray.domain.task.type.TaskStatus).valueOf(task.status).name}"></div>
+                    <div>
+                        <span>마일스톤: </span><span th:text="${milestone.name}"></span>
+                        <div>
+                            <input type="date" th:value="${milestone.startDate}" readonly>
+                            <span>~</span>
+                            <input type="date" th:value="${milestone.finishDate}" readonly>
+                        </div>
+                    </div>
+                </div>
             </div>
             <hr/>
             <div>
@@ -39,10 +84,14 @@
                 </div>
             </div>
         </div>
-        <div>
-            <form th:action="@{/tasks/{taskId}/comments(taskId=${taskId})}" method="post">
-                <textarea name="content"></textarea>
-                <button type="submit">댓글 작성</button>
+        <div class="comment-write-container">
+            <form class="comment-write-form" th:action="@{/tasks/{taskId}/comments(taskId=${taskId})}" method="post">
+                <div class="comment-write">
+                    <textarea rows="5" cols="100" name="content"></textarea>
+                    <div class="comment-write-button">
+                        <button type="submit">댓글 작성</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

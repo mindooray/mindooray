@@ -1,10 +1,9 @@
 package com.nhnacademy.team4.mindooray;
 
-import com.nhnacademy.team4.mindooray.utils.BeanUtils;
+import com.nhnacademy.team4.mindooray.global.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.ClientHttpRequestFactorySupplier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

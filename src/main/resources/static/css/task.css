@@ -59,9 +59,57 @@
     display: none;
 }
 
+#memberListContainerId {
+    position: absolute;
+    padding: 3px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    right: 1px;
+    width: 150px;
+    height: 350px;
+}
+
 .member-head {
     display: flex;
     justify-content: space-between;
+}
+
+.member-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    height: 300px;
+    border-bottom: 1px solid black;
+    overflow: auto;
+}
+
+.member-list > div {
+    margin: 2px 0;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+}
+
+.member-list > div > span {
+    padding-left: 2px;
+}
+
+.member-list > div:hover {
+    cursor: pointer;
+    background-color: gainsboro;
+}
+
+.member-list-button {
+    margin: 10px;
+    display: flex;
+    justify-content: right;
+}
+
+.member-list-button > button {
+    width: 50px;
+    height: 30px;
 }
 
 .member-head > button {

@@ -1,9 +1,9 @@
 .milestone-visibility {
-    visibility: hidden;
+    display: none;
 }
 
 .tag-select-visibility {
-    visibility: hidden;
+    display: none;
 }
 
 .tag-select {
@@ -34,4 +34,12 @@
 
 #taskContentInput {
     resize: none;
+}
+
+.milestone-container > div {
+    margin: 10px;
+}
+
+.deadline-container > div {
+    margin: 10px;
 }

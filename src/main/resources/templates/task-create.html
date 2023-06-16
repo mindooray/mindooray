@@ -10,22 +10,22 @@
         function milestoneVisible() {
             const milestone = document.getElementById("milestoneId");
 
-            milestone.style.visibility = "visible";
+            milestone.style.display = "block";
         }
 
         function milestoneHidden() {
             const milestone = document.getElementById("milestoneId");
 
-            milestone.style.visibility = "hidden";
+            milestone.style.display = "none";
         }
 
         function tagButton() {
             const tagSelect = document.getElementById("tagSelectId");
 
-            if (tagSelect.style.visibility === "visible") {
-                tagSelect.style.visibility = "hidden";
+            if (tagSelect.style.display === "block") {
+                tagSelect.style.display = "none";
             } else {
-                tagSelect.style.visibility = "visible";
+                tagSelect.style.display = "block";
             }
         }
     </script>
@@ -48,21 +48,34 @@
                 </div>
             </div>
             <div>
+                <h3>마일스톤</h3>
                 <input id="milestoneYes" type="radio" name="milestone" value="yes" onclick="milestoneVisible()">
                 <label for="milestoneYes">있음</label>
                 <input id="milestoneNo" type="radio" name="milestone" value="no" checked="checked"
                        onclick="milestoneHidden()">
                 <label for="milestoneNo">없음</label>
                 <div id="milestoneId" class="milestone-visibility">
-                    <label for="milestoneNameId">마일스톤명</label>
-                    <input id="milestoneNameId" type="text" name="milestoneName">
-                    <input type="date" name="milestoneStartDate">
-                    <input type="date" name="milestoneEndDate">
-                    <span>기한</span>
-                    <input id="deadlineStatusYes" type="radio" name="deadlineStatus">
-                    <label for="deadlineStatusYes">있음</label>
-                    <input id="deadlineStatusNo" type="radio" name="deadlineStatus">
-                    <label for="deadlineStatusNo">없음</label>
+                    <div class="milestone-container">
+                        <div>
+                            <label for="milestoneNameId">마일스톤명</label>
+                            <input id="milestoneNameId" type="text" name="milestoneName">
+                        </div>
+                        <div>
+                            <label for="milestoneStartDateId">시작일</label>
+                            <input id="milestoneStartDateId" type="date" name="milestoneStartDate">
+                            <label for="milestoneEndDateId">종료일</label>
+                            <input id="milestoneEndDateId" type="date" name="milestoneEndDate">
+                        </div>
+                    </div>
+                    <div class="deadline-container">
+                        <span>기한</span>
+                        <div>
+                            <input id="deadlineStatusYes" type="radio" name="deadlineStatus">
+                            <label for="deadlineStatusYes">있음</label>
+                            <input id="deadlineStatusNo" type="radio" name="deadlineStatus">
+                            <label for="deadlineStatusNo">없음</label>
+                        </div>
+                    </div>
                 </div>
 
             </div>
