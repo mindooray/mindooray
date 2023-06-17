@@ -105,9 +105,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Override
-//    protected MethodSecurityExpressionHandler createExpressionHandler() {
-//        return expressionHandler;
-//    }
 }

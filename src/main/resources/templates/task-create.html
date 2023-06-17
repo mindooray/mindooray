@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>create-task</title>
-    <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
-    <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
+    <th:block th:replace="fragments/side-menu-fragment.html :: side-menu-header"/>
     <link rel="stylesheet" th:href="@{/css/task-create.css}">
     <script type="text/javascript">
         function milestoneVisible() {
@@ -31,9 +31,9 @@
     </script>
 </head>
 <body>
-<nav th:replace="/fragments/nav-fragment.html :: nav"></nav>
+<nav th:replace="fragments/nav-fragment.html :: nav"></nav>
 <div style="display: flex">
-    <nav th:replace="/fragments/side-menu-fragment.html :: side-menu"></nav>
+    <nav th:replace="fragments/side-menu-fragment.html :: side-menu"></nav>
     <div>
         <form th:action="@{__${#request.requestURI}__}" method="post">
             <h1>업무 등록</h1>

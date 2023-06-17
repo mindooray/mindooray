@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Task</title>
-    <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
-    <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
+    <th:block th:replace="fragments/side-menu-fragment.html :: side-menu-header"/>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
     <link rel="stylesheet" th:href="@{/css/task.css}">
     <script type="text/javascript">
         function projectURL(taskId) {
@@ -53,9 +53,9 @@
     </script>
 </head>
 <body>
-<div th:replace="/fragments/nav-fragment.html :: nav"></div>
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
 <div style="display: flex;">
-    <div th:replace="/fragments/side-menu-fragment.html :: side-menu"></div>
+    <div th:replace="fragments/side-menu-fragment.html :: side-menu"></div>
     <div class="task-container">
         <div class="task-list-container">
             <div>

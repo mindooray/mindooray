@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Project</title>
-    <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
-    <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
+    <th:block th:replace="fragments/side-menu-fragment.html :: side-menu-header"/>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
     <link rel="stylesheet" th:href="@{/css/project-create.css}">
 </head>
 <body>
-<div th:replace="/fragments/nav-fragment.html :: nav"></div>
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
 <div style="display: flex;">
-    <div th:replace="/fragments/side-menu-fragment.html :: side-menu"></div>
+    <div th:replace="fragments/side-menu-fragment.html :: side-menu"></div>
     <form class="project-create-form" action="/projects" method="post">
         <h1>프로젝트 생성</h1>
         <div>

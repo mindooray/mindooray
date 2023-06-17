@@ -9,6 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProjectMemberResponse {
-    @JsonProperty("project_role")
     private String projectRole;
 }

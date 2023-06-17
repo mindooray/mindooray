@@ -53,6 +53,7 @@ public class AccountService implements UserDetailsService {
 
         AccountDetails accountDetails = AccountDetails.create(loginResponse.getLoginId(), loginResponse.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority(loginResponse.getRole())));
+
         if (!loginResponse.getStatus().equals("ACTIVE")) {
             accountDetails.setAccountNonExpire(false);
         }

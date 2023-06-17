@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>상세정보</title>
-    <th:block th:replace="/fragments/nav-fragment.html :: nav-header"/>
-    <th:block th:replace="/fragments/side-menu-fragment.html :: side-menu-header"/>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
+    <th:block th:replace="fragments/side-menu-fragment.html :: side-menu-header"/>
     <link rel="stylesheet" th:href="@{/css/task-detail.css}">
     <script type="text/javascript">
         function taskTagShow() {
@@ -19,9 +19,9 @@
     </script>
 </head>
 <body>
-<div th:replace="/fragments/nav-fragment.html :: nav"></div>
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
 <div style="display: flex">
-    <div th:replace="/fragments/side-menu-fragment.html :: side-menu"></div>
+    <div th:replace="fragments/side-menu-fragment.html :: side-menu"></div>
     <div class="task-detail-container">
         <div class="task-detail">
             <div class="task-head-container">
