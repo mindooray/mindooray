@@ -1,0 +1,41 @@
+.account-update-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.account-update-container > div {
+    width: 30%;
+}
+
+.account-update-form-container {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.account-update-form {
+    width: 100%;
+}
+
+.account-update-info {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-update-info > input {
+    height: 30px;
+    padding-left: 2px;
+    font-size: 18px;
+}
+
+.account-update-form-button {
+    display: flex;
+    justify-content: right;
+}
+
+.account-update-form-button > button {
+    height: 40px;
+    width: 50px;
+    margin-right: 20px;
+}

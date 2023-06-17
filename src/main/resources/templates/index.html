@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <th:block th:replace="fragments/side-menu-fragment.html :: side-menu-header"/>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header" />
+</head>
+<body>
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
+<div style="display: flex">
+    <div th:replace="fragments/side-menu-fragment.html :: side-menu"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+.container {
+    width: 200px;
+    min-height: 100vh;
+    height: 100%;
+    border-right: 1px solid black;
+}
+
+.project-list-container {
+    display: flex;
+    justify-content: center;
+}
+
+.project-list {
+    width: 90%;
+    text-align: center;
+}
+
+.project-list > div {
+    width: 100%;
+    padding-top: 5px;
+    border-radius: 5px;
+}
+
+.project-list > div:hover {
+    background-color: #e1e4eb;
+    cursor: pointer;
+}

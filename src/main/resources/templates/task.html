@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Task</title>
+    <th:block th:replace="fragments/side-menu-fragment.html :: side-menu-header"/>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
+    <link rel="stylesheet" th:href="@{/css/task.css}">
+    <script type="text/javascript">
+        function projectURL(taskId) {
+            const path = window.location.pathname.split("/");
+            const projectId = path.at(path.length - 2);
+            console.log(projectId);
+            window.location.href = `/projects/${projectId}/tasks/${taskId}`;
+        }
+
+        function createTagDivShow() {
+            const tag = document.getElementById("tagId");
+
+            if (tag.style.display === "block") {
+                const tagName = document.getElementById("tagNameId");
+                tagName.value = "";
+                tag.style.display = "none";
+            } else {
+                tag.style.display = "block";
+            }
+        }
+
+        function addMember() {
+            const memberList = document.getElementById("memberListId")
+
+            if (memberList.style.display === "block") {
+                const checkedList = document.getElementsByName("accounts");
+                for (const checked of checkedList) {
+                    checked.checked = false;
+                }
+                memberList.style.display = "none";
+            } else {
+                memberList.style.display = "block";
+            }
+        }
+
+        function clickAccount(accountId) {
+            const accountCheckBox = document.getElementById(`account-${accountId}`);
+
+            if (accountCheckBox.checked === false) {
+                accountCheckBox.checked = true;
+            } else {
+                accountCheckBox.checked = false;
+            }
+        }
+    </script>
+</head>
+<body>
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
+<div style="display: flex;">
+    <div th:replace="fragments/side-menu-fragment.html :: side-menu"></div>
+    <div class="task-container">
+        <div class="task-list-container">
+            <div>
+                <h3>TASK</h3>
+                <button class="task-create-btn" type="button"
+                        th:onclick="|location.href='@{/projects/{projectId}/tasks/create(projectId=${projectId})}'|">
+                    task 생성
+                </button>
+                <div class="task-list">
+                    <div th:each="task : ${taskList}"
+                         th:onclick="|location.href='@{/projects/{projectId}/tasks/{taskId}(projectId=${projectId}, taskId=${task.taskId})}'|">
+                        <span th:text="${task.title}"></span>
+                        <span th:text="${task.accountName}"></span>
+                        <span th:text="${T(com.nhnacademy.team4.mindooray.domain.task.type.TaskStatus).valueOf(task.status).name}"></span>
+                        <span th:text="${task.createDate}"></span>
+                        <span th:text="${task.projectName}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tag-container">
+            <div class="tag-list">
+                <h3>tag</h3>
+                <div>
+                    <table>
+                        <tr th:each="tag : ${tagList}">
+                            <td th:text="${tag.tagName}"></td>
+                        </tr>
+                    </table>
+                </div>
+                <button type="button"
+                        th:onclick="|location.href='@{/projects/{projectId}/tags(projectId=${projectId})}'|">편집
+                </button>
+            </div>
+            <div class="member-list-container">
+                <div th:with="p=projectId" class="member-head">
+                    <h3>member</h3>
+                    <div>
+                        <button th:if="${#authorization.expression('hasPermission(__${projectId}__, ''PROJECT_ADMIN'')')}"
+                                type="button" onclick="addMember()">멤버 추가
+                        </button>
+                        <div id="memberListId">
+                            <div id="memberListContainerId">
+                                <form th:action="@{/projects/{projectId}/accounts(projectId=${projectId})}"
+                                      method="post">
+                                    <div class="member-list">
+                                        <div th:each="account : ${totalAccount}"
+                                             th:onclick="|clickAccount('__${account.accountId}__')|">
+                                            <input th:id="'account-' + ${account.accountId}" type="checkbox"
+                                                   name="accounts" th:value="${account.accountId}">
+                                            <span th:text="${account.loginId}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="member-list-button">
+                                        <button type="submit">추가</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-member-list">
+                    <table>
+                        <tr th:each="account : ${accountList}">
+                            <td th:text="${account.loginId}"></td>
+                            <td>
+                                <form th:action="@{/projects/{projectId}/accounts/{accountId}/delete(projectId=${projectId}, accountId=${account.accountId})}"
+                                      method="get">
+                                    <button th:if="${#authorization.expression('hasPermission(__${projectId}__, ''PROJECT_ADMIN'')') && #authentication.name != account.loginId}"
+                                            type="submit">삭제
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

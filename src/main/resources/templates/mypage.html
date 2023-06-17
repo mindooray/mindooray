@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
+</head>
+<body>
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
+<div class="mypage-container">
+    <div>
+        <h1>사용자 정보</h1>
+        <div>
+            <div class="mypage-info">
+                <span>아이디</span>
+                <input type="text" readonly th:value="${account.loginId}">
+            </div>
+            <div class="mypage-info">
+                <span>이메일</span>
+                <input type="text" readonly th:value="${account.email}">
+            </div>
+        </div>
+        <div>
+            <a href="/account/update">수정</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

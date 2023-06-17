@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Project</title>
+    <th:block th:replace="fragments/side-menu-fragment.html :: side-menu-header"/>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
+    <link rel="stylesheet" th:href="@{/css/project-create.css}">
+</head>
+<body>
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
+<div style="display: flex;">
+    <div th:replace="fragments/side-menu-fragment.html :: side-menu"></div>
+    <form class="project-create-form" action="/projects" method="post">
+        <h1>프로젝트 생성</h1>
+        <div>
+            <label for="projectTitleId">제목</label>
+            <input id="projectTitleId" type="text" name="title">
+        </div>
+        <div>
+            <label for="projectDescriptionId">설명</label>
+            <textarea rows="15" cols="20" id="projectDescriptionId" name="description"></textarea>
+        </div>
+        <div class="project-create-button">
+            <button type="submit">생성</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

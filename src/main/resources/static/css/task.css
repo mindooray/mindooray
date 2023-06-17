@@ -1,0 +1,118 @@
+.task-container {
+    display: flex;
+    width: 100%;
+}
+
+.task-list-container {
+    flex: 4;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+}
+
+.task-list-container > div {
+    width: 100%;
+}
+
+.task-list {
+    margin-top: 10px;
+}
+
+.task-list > div {
+    width: 100%;
+    height: 50px;
+    border: 1px solid black;
+}
+
+.task-list > div:hover {
+    cursor: pointer;
+    background-color: #e1e4eb;;
+}
+
+.task-create-btn {
+
+}
+
+.tag-container {
+    flex: 3;
+    height: 100px;
+}
+
+.tag-list {
+    border: 1px solid black;
+}
+
+.member-list-container {
+    border: 1px solid black;
+}
+
+#tagId {
+    display: none;
+}
+
+.tagId > div {
+    position: absolute;
+    height: 50px;
+}
+
+#memberListId {
+    display: none;
+}
+
+#memberListContainerId {
+    position: absolute;
+    padding: 3px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    right: 1px;
+    width: 150px;
+    height: 350px;
+}
+
+.member-head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.member-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    height: 300px;
+    border-bottom: 1px solid black;
+    overflow: auto;
+}
+
+.member-list > div {
+    margin: 2px 0;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+}
+
+.member-list > div > span {
+    padding-left: 2px;
+}
+
+.member-list > div:hover {
+    cursor: pointer;
+    background-color: gainsboro;
+}
+
+.member-list-button {
+    margin: 10px;
+    display: flex;
+    justify-content: right;
+}
+
+.member-list-button > button {
+    width: 50px;
+    height: 30px;
+}
+
+.member-head > button {
+    height: 50px;
+    margin-right: 20px;
+}

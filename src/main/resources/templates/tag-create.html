@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="fragments/nav-fragment.html :: nav-header"/>
+    <th:block th:replace="fragments/side-menu-fragment.html :: side-menu-header"/>
+    <link rel="stylesheet" th:href="@{/css/tag-create.css}"/>
+    <script type="text/javascript" >
+        function updateTagButtonActive(tagId) {
+            const updateButton = document.getElementById('updateButtonId-' + tagId);
+
+            updateButton.disabled = false;
+        }
+    </script>
+</head>
+<body>
+<div th:replace="fragments/nav-fragment.html :: nav"></div>
+<div style="display: flex">
+    <div th:replace="fragments/side-menu-fragment.html :: side-menu"></div>
+    <div class="tag-create-container">
+        <div class="tag-create">
+            <div th:each="tag : ${tagList}">
+                <form th:action="@{/projects/{projectId}/tags/{tagId}/update(tagId=${tag.tagId}, projectId=${projectId})}" method="post">
+                    <input th:value="${tag.tagName}" name="name" th:oninput="|updateTagButtonActive('__${tag.tagId}__')|">
+                    <button th:id="'updateButtonId-' + ${tag.tagId}" type="submit" disabled>수정</button>
+                </form>
+                <form th:action="@{/projects/{projectId}/tags/{tagId}/delete(tagId=${tag.tagId}, projectId=${projectId})}" method="get">
+                    <button type="submit">삭제</button>
+                </form>
+            </div>
+            <div id="tagId">
+                <div>
+                    <form th:action="@{/projects/{projectId}/tags(projectId=${projectId})}" method="post">
+                        <label for="tagNameId">태그명</label>
+                        <input id="tagNameId" type="text" name="name">
+                        <div>
+                            <button type="submit">만들기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
